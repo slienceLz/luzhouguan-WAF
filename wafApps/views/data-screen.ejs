@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据可视化</title>
+    <link rel="stylesheet" href="/stylesheets/data-screen-css/index.css">
+</head>
+
+<body>
+    <!-- 页面头部部分 -->
+    <header>
+        <h1>WAF防护面板</h1>
+        <div class="showTime"></div>
+        <script src="/javascripts/data-screen-js/time.js"></script>
+    </header>
+
+    <!-- 页面主体部分 -->
+    <section class="mainbox">
+        <div class="column">
+            <div class="panel line">
+                <h2>每月攻击统计</h2>
+                <div class="chart">图表</div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+        <div class="column">
+            <!-- no模块制作 -->
+            <div class="no">
+                <div class="no-hd">
+                    <ul>
+                        <% trafficData.forEach(function(traffic) { %>
+                            <li>
+                                <%= traffic.normal %>
+                            </li>
+                            <li>
+                                <%= traffic.malice %>
+                            </li>
+                            <% }) %>
+                    </ul>
+
+                </div>
+                <div class="no-bd">
+                    <ul>
+                        <li>总流量请求数</li>
+                        <li>恶意流量请求</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- map地图模块 -->
+            <div class="map">
+                <div class="chart"></div>
+                <div class="map1"></div>
+                <div class="map2"></div>
+                <div class="map3"></div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="panel line2">
+                <h2>攻击类型</h2>
+                <div class="chart">图表</div>
+                <div class="panel-footer"></div>
+            </div>
+            <!-- <div class="panel line2">
+                <h2>小时攻击频次</h2>
+                <div class="chart">图表</div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="panel pie2">
+                <h2>攻击地区分布</h2>
+                <div class="chart">图表</div>
+                <div class="panel-footer"></div>
+            </div> -->
+        </div>
+    </section>
+    <script src="/javascripts/data-screen-js/flexible.js"></script>
+    <script src="/javascripts/data-screen-js/echarts.min.js"></script>
+    <script src="/javascripts/data-screen-js/index.js"></script>
+</body>
+
+</html>

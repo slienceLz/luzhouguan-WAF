@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>left</title>
+  <link rel="stylesheet" href="/stylesheets/common.css" />
+  <link rel="stylesheet" href="/stylesheets/left.css" />
+</head>
+
+<body>
+  <div class="nav-left">
+    <h3>
+      <img src="/images/logo.png" alt="" class="logo" />
+    </h3>
+    <ul>
+      <li>
+        <div class="menu active">
+          <img src="/images/rizhi.png" alt="" />
+          <span>防护日志</span>
+          <img src="/images/you.png" class="arrow" alt="" />
+        </div>
+        <ul>
+          <li class="menu">
+            <img src="/images/zonglan.png" alt="" />
+            <a href="/data-screen" target="_blank">数据总览</a>
+          </li>
+          <li class="menu">
+            <img src="/images/sql.png" alt="" />
+            <a href="/SQL_List" target="right">SQL注入</a>
+          </li>
+          <li class="menu">
+            <img src="/images/xss.png" alt="" />
+            <a href="/XSS_List" target="right">XSS攻击</a>
+          </li>
+          <li class="menu">
+            <img src="/images/csrf.png" alt="" />
+            <a href="/File_List" target="right">文件包含</a>
+          </li>
+          <li class="menu">
+            <img src="/images/xxe.png" alt="" />
+            <a href="/XXE_List" target="right">XXE注入</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <div class="menu active">
+          <img src="/images/guize.png" alt="" />
+          <span>拦截规则</span>
+          <img src="/images/you.png" class="arrow" alt="" />
+        </div>
+        <ul>
+          <li class="menu">
+            <img src="/images/sql.png" alt="" />
+            <a href="/SQL_Rule" target="right">SQL注入</a>
+          </li>
+          <li class="menu">
+            <img src="/images/xss.png" alt="" />
+            <a href="/XSS_Rule" target="right">XSS攻击</a>
+          </li>
+          <li class="menu">
+            <img src="/images/csrf.png" alt="" />
+            <a href="/File_Rule" target="right">文件包含</a>
+          </li>
+          <li class="menu">
+            <img src="/images/xxe.png" alt="" />
+            <a href="/XXE_Rule" target="right">XXE注入</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <div class="menu active">
+          <img src="/images/peizhi.png" alt="" />
+          <span>系统配置</span>
+          <img src="/images/you.png" class="arrow" alt="" />
+        </div>
+        <ul>
+          <li class="menu">
+            <img src="/images/black.png" alt="" />
+            <a href="/Black_List" target="right">黑白名单</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <div class="out">
+            <a href="/">退&nbsp;出&nbsp;登&nbsp;录</a>
+        </div> -->
+  </div>
+
+  <script src="/javascripts/jquery.js"></script>
+  <script>
+    $(function () {
+      $(".nav-left>ul>li").click(function () {
+        // 修改一级菜单样式
+        $(this).siblings().find("div.menu").removeClass("active");
+        $(this).find("div.menu").addClass("active");
+
+        // 更换箭头
+        $(this).siblings().find(".arrow").attr("src", "/images/you.png");
+        $(this).find(".arrow").attr("src", "/images/xia.png");
+
+        // 子功能展开和收起
+        $(this).siblings().find("ul").slideUp(200);
+        $(this).find("ul").slideDown(200);
+      });
+    });
+  </script>
+</body>
+
+</html>

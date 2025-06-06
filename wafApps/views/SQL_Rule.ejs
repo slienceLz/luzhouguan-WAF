@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL_Rule</title>
+    <link rel="stylesheet" href="/stylesheets/common.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/common_ejs.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="main">
+            <div class="select">
+                <form action="/like_sql_rule" method="get" id="myform">
+                    <select onchange="submitForm()" name="selectVal">
+                        <% SQL_Rule.forEach(function (item) { %>
+                            <option value="<%= item.id %>">
+                                <%= item.id %>
+                            </option>
+                            <%}) %>
+                    </select>
+                    <div class="search">
+                        <input type="text" name="like_sql_rule">
+                        <button class="search-btn">
+                            <img src="/images/fangdajing.png" alt="">
+                        </button>
+                    </div>
+                </form>
+                <button id="addBtn" class="add-btn">添&nbsp;加</button>
+            </div>
+            <script>
+                // 触发提交form表单进行select搜索
+                function submitForm() {
+                    var form = document.getElementById('myform');
+                    form.submit();
+                }
+            </script>
+            <div class="content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>规则（keyword）</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% SQL_Rule.forEach(function (item) { %>
+                            <tr>
+                                <td>
+                                    <%= item.id %>
+                                </td>
+                                <td>
+                                    <%= item.keyword %>
+                                </td>
+                                <td>
+                                    <img src="/images/xiugai.png" alt="" class="edit update-item"
+                                        data-id="<%= item.id %>" data-keyword="<%= item.keyword %>">
+                                    &nbsp;&nbsp;
+                                    <img src="/images/shanchu.png" alt="del" class="delete-item"
+                                        data-id="<%= item.id %>">
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+                <div class="page">
+                    <ul class="pagination">
+                        <% var prevNum=2;var nextNum=2;%>
+                            <li class="disabled"><a href="javascript:;">&nbsp;共<%= pager.maxNum%>条&nbsp;</a></li>
+                            <li class="disabled"><a href="javascript:;">&nbsp;共<%= pager.pageCount%>页&nbsp;</a></li>
+
+                            <!--判断首页  开始-->
+                            <% if(pager.maxNum==0){ %>
+                                <li class="disabled"><a href="javascript:;">&nbsp;首页&nbsp;</a></li>
+                                <% }else{ %>
+                                    <li><a href="/SQL_Rule?page=1">&nbsp;首页&nbsp;</a></li>
+                                    <% } %>
+                                        <!--判断首页  结束-->
+                                        <li class="disabled"><a href="javascript:;">&nbsp;上一页&nbsp;</a></li>
+
+                                        <!--循环显示页码  开始-->
+                                        <% for(var i=prevNum; i>0; i--){ %>
+                                            <% if(parseInt(pager.pageCurrent)-i>0){ %>
+                                                <li><a href="/SQL_Rule?page=<%= parseInt(pager.pageCurrent) - i%>">
+                                                        &nbsp;
+                                                        <%= parseInt(pager.pageCurrent) - i %>
+                                                            &nbsp;
+                                                    </a></li>
+                                                <% }} %>
+                                                    <li class="active">
+                                                        <a href="/SQL_Rule?page=<%= pager.pageCurrent%>">
+                                                            &nbsp;
+                                                            <%= pager.pageCurrent %>
+                                                                &nbsp;
+                                                        </a>
+                                                    </li>
+                                                    <% for(var i=1;i<=nextNum;i++){ %>
+
+                                                        <% if(parseInt(pager.pageCurrent)+i<=pager.pageCount ){ %>
+                                                            <li>
+                                                                <a
+                                                                    href="/SQL_Rule?page=<%= parseInt(pager.pageCurrent) + i%>">
+                                                                    &nbsp;
+                                                                    <%= parseInt(pager.pageCurrent) + i%>
+                                                                        &nbsp;
+                                                                </a>
+                                                            </li>
+
+                                                            <% }} %>
+                                                                <!--循环显示页码  结束-->
+                                                                <li class="disabled"><a
+                                                                        href="javascript:;">&nbsp;下一页&nbsp;</a>
+                                                                </li>
+                                                                <!--判断尾页  开始-->
+                                                                <% if(pager.maxNum==0){ %>
+                                                                    <li class="disabled"><a
+                                                                            href="javascript:;">&nbsp;尾页&nbsp;</a>
+                                                                    </li>
+                                                                    <% }else{ %>
+                                                                        <li><a
+                                                                                href="/SQL_Rule?page=<%= pager.pageCount %>">&nbsp;尾页&nbsp;</a>
+                                                                        </li>
+                                                                        <% } %>
+                                                                            <!--判断尾页  结束-->
+
+                                                                            <li class="disabled"><a
+                                                                                    href="javascript:;">&nbsp;上一页&nbsp;</a>
+                                                                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--添加操作 开始-->
+    <div class="dialog isDialog"></div>
+    <div class="dialog-wrap isDialog">
+        <div class="dialog-header">
+            <h3>添加日志数据</h3>
+            <div class="close">
+                <img src="/images/close.png" alt="">
+            </div>
+        </div>
+        <form action="/SQL_Rule_addLog" method="post" enctype="multipart/form-data">
+            <div>
+                <p>ID</p>
+                <p><input type="text" name="idNum" class="form-control"></p>
+            </div>
+            <div>
+                <p>规则（keyword）</p>
+                <p><input type="text" name="keyWord" class="form-control"></p>
+            </div>
+            <div class="dialog-footer">
+                <span class="cancel">取消</span>
+                <button class="determine">确定</button>
+            </div>
+        </form>
+    </div>
+    <!-- 添加操作 结束-->
+    <!-- 删除操作 开始-->
+    <div class="dialog isDelete"></div>
+    <div class="dialog-wrap isDelete">
+        <div class="dialog-header">
+            <h3>确定要删除此条日志吗？</h3>
+            <div class="close">
+                <img src="/images/close.png" alt="">
+            </div>
+        </div>
+        <div class="dialog-footer">
+            <span class="cancel">取消</span>
+            <button class="determine determineDel">确定</button>
+        </div>
+    </div>
+    <!-- 删除操作 结束 -->
+    <script src="/javascripts/jquery.js"></script>
+    <script>
+        $(function () {
+            var id = '';
+            var updateHtml = '';
+            // 显示添加表单
+            $('#addBtn').click(function () {
+                $('.isDialog').show();
+            })
+            // 隐藏添加表单
+            $('.close,.cancel').click(function () {
+                $('.isDialog').hide();
+            })
+            // 点击删除按钮
+            $('.delete-item').click(function () {
+                id = $(this).data('id');
+                $('.isDelete').show();
+            })
+            // 隐藏删除
+            $('.close,.cancel').click(function () {
+                $('.isDelete').hide();
+            })
+            // 确定删除
+            $('.determineDel').click(function () {
+                window.location.href = `/SQL_Rule_del?id=${id}`;
+            })
+            // 点击修改操作
+            $('.update-item').click(function () {
+                var updateId = $(this).data('id');
+                var updateKeyword = $(this).data('keyword');
+                updateHtml = `
+                    <div class="dialog isUpdate"></div>
+                    <div class="dialog-wrap isUpdate">
+                        <div class="dialog-header">
+                            <h3>修改日志数据</h3>
+                            <div class="close">
+                                <img src="/images/close.png" alt="">
+                            </div>
+                        </div>
+                        <form action="/SQL_Rule_update" method="post" enctype="multipart/form-data">
+                            <div>
+                                <p>ID</p>
+                                <p><input type="text" name="upId" class="form-control" value=${updateId}></p>
+                            </div>
+                            <div>
+                                <p>规则（keyword）</p>
+                                <p><input type="text" name="keyWord" class="form-control" value="${updateKeyword}" maxlength="200"></p>
+                            </div>
+                            <div class="dialog-footer">
+                                <span class="cancel">取消</span>
+                                <input type="submit" value='确定' class="determine">
+                            </div>
+                        </form>
+                    </div>
+                    `
+                $('body').append(updateHtml);
+            })
+            // 取消修改操作
+            $('body').on('click', '.close,.cancel', function () {
+                $('.isUpdate').hide();
+            })
+        })
+    </script>
+</body>
+
+</html>
